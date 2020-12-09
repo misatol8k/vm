@@ -1,4 +1,4 @@
-require 'byebug'
+# require 'byebug'
 # このコードをコピペしてrubyファイルに貼り付け、そのファイルをirbでrequireして実行しましょう。
 # 例
 # irb
@@ -58,7 +58,7 @@ class VendingMachine
     # byebug
     if @slot_money >= 120 && @coke.size >= 1
       @sale += 120
-      @coke  = @coke.shift #配列から最初の１つを取り出して消す処理をかく
+      @coke.shift #配列から最初の１つを取り出して消す処理をかく
       @slot_money -= 120
     else
       return false
@@ -68,7 +68,6 @@ class VendingMachine
     #コーラ、水、レッドブルが購入可能か判定する
     @can_coke = ""
     if @slot_money >= 120 && @coke.size >= 1
-      byebug
       @can_coke = "#{@coke[0][:name]}" #書き方確認
     end
     #購入可能な飲み物をすべて表示する
