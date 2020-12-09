@@ -1,7 +1,8 @@
+# require 'byebug'
 # このコードをコピペしてrubyファイルに貼り付け、そのファイルをirbでrequireして実行しましょう。
 # 例
 # irb
-# require '/Users/shibatadaiki/work_shiba/full_stack/sample.rb'
+# require '/Users/mlkuri/workspace/sample.rb'
 # （↑のパスは、自動販売機ファイルが入っているパスを指定する）
 # 初期設定（自動販売機インスタンスを作成して、vmという変数に代入する）
 # vm = VendingMachine.new
@@ -31,9 +32,12 @@ class VendingMachine
   def slot_money(money)
     # 想定外のもの（１円玉や５円玉。千円札以外のお札、そもそもお金じゃないもの（数字以外のもの）など）
     # が投入された場合は、投入金額に加算せず、それをそのまま釣り銭としてユーザに出力する。
+    if MONEY.include?(money)
+
     return false unless MONEY.include?(money)
     # 自動販売機にお金を入れる
-    @slot_money += money
+
+    end
   end
   # 払い戻し操作を行うと、投入金額の総計を釣り銭として出力する。
   def return_money
@@ -43,3 +47,22 @@ class VendingMachine
     @slot_money = 0
   end
 end
+# class Stock
+#   stock = {price:, name:}
+#   coke =  [{ 名前:コーラ,値段: 120 },{ 名前:コーラ,値段: 120 },{ 名前:コーラ,値段: 120 }{ 名前:コーラ,値段: 120 }{ 名前:コーラ,値段: 120 }]
+#   def initialize()
+#     @stock = stock
+#   end
+# end
+# @stock = Stock.new()
+#
+class Stock
+  def initialize
+    @coke = [{name:"coke",price:120},{name:"coke",price:120}]
+  end
+  def stock_list
+    puts "在庫は#{initialize.size}個です"
+  end
+end
+stock = Stock.new
+stock.stock_list
