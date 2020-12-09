@@ -22,7 +22,10 @@ class VendingMachine
     # 最初の自動販売機に入っている金額は0円
     @sale = 0
     @slot_money = 0
-    @coke = [{name:"coke",price:120},{name:"coke",price:120}]
+    @coke = [{name: "coke",  price:120}] * 5
+    @water = [{name: "water",  price:100}] * 5
+    @red_bull = [{name: "red_bull",  price:200}] * 5
+
 # 在庫を追加
   end
   # 投入金額の総計を取得できる。
@@ -61,8 +64,20 @@ class VendingMachine
       return false
     end
   end
+  def can_purchase_list
+    #コーラ、水、レッドブルが購入可能か判定する
+    @can_coke = ""
+    if @slot_money >= 120 && @coke.size >= 1
+      byebug
+      @can_coke = "#{@coke[0][:name]}" #書き方確認
+    end
+    #購入可能な飲み物をすべて表示する
+    puts "購入できる飲み物は#{@can_coke}です"
+  end
 end
 
 vm = VendingMachine.new
 p vm.slot_money(1000)
 p vm.purchase
+p vm.stock
+p vm.can_purchase_list
