@@ -1,4 +1,3 @@
-# require 'byebug'
 # このコードをコピペしてrubyファイルに貼り付け、そのファイルをirbでrequireして実行しましょう。
 # 例
 # irb
@@ -64,19 +63,39 @@ class VendingMachine
       return false
     end
   end
-  def can_purchase_list
+  def can_purchase_list_coke
     #コーラ、水、レッドブルが購入可能か判定する
     @can_coke = ""
     if @slot_money >= 120 && @coke.size >= 1
       @can_coke = "#{@coke[0][:name]}" #書き方確認
     end
+  end
+  def can_purchase_list_water
+    #コーラ、水、レッドブルが購入可能か判定する
+    @can_water = ""
+    if @slot_money >= 100 && @water.size >= 1
+      @can_water = "#{@water[0][:name]}" #書き方確認
+    end
+  end
     #購入可能な飲み物をすべて表示する
-    puts "購入できる飲み物は#{@can_coke}です"
+  def can_purchase_list_red_bull
+    #コーラ、水、レッドブルが購入可能か判定する
+    @can_red_bull = ""
+    if @slot_money >= 200 && @red_bull.size >= 1
+      @can_red_bull = "#{@red_bull[0][:name]}" #書き方確認
+    end
+  end
+        #購入可能な飲み物をすべて表示する
+  def can_purchase_list
+    can_purchase_list_coke
+    can_purchase_list_water
+    can_purchase_list_red_bull
+    #購入可能な飲み物をすべて表示する
+    puts "購入できる飲み物:#{@can_coke} #{@can_water} #{@can_red_bull}"
   end
 end
 
 vm = VendingMachine.new
-p vm.slot_money(1000)
-p vm.purchase
-p vm.stock
-p vm.can_purchase_list
+p vm.slot_money(100)
+p vm.slot_money(100)
+vm.can_purchase_list
