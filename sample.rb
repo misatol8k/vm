@@ -46,7 +46,7 @@ class VendingMachine
   # 払い戻し操作を行うと、投入金額の総計を釣り銭として出力する。
   def return_money
     # 返すお金の金額を表示する
-    puts @slot_money
+    puts "釣り銭は#{@slot_money}円です"
     # 自動販売機に入っているお金を0円に戻す
     @slot_money = 0
   end
@@ -59,6 +59,8 @@ class VendingMachine
       @sale += 120
       @coke.shift #配列から最初の１つを取り出して消す処理をかく
       @slot_money -= 120
+      puts "#{@coke[0][:name]}を購入しました"
+      return_money
     else
       return false
     end
@@ -95,7 +97,9 @@ class VendingMachine
   end
 end
 
-vm = VendingMachine.new
-p vm.slot_money(100)
-p vm.slot_money(100)
-vm.can_purchase_list
+# vm = VendingMachine.new
+# p vm.slot_money(100)
+# p vm.slot_money(10)
+# p vm.slot_money(10)
+# vm.can_purchase_list
+# vm.purchase
