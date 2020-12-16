@@ -14,7 +14,7 @@ class VendingMachine
   # 投入金額の総計を取得できる。
   def current_slot_money
     # 自動販売機に入っているお金を表示する
-    @slot_money
+    puts "現在の投入金額は#{@slot_money}円です"
   end
   # 10円玉、50円玉、100円玉、500円玉、1000円札を１つずつ投入できる。
   # 投入は複数回できる。
@@ -22,9 +22,11 @@ class VendingMachine
     # 想定外のもの（１円玉や５円玉。千円札以外のお札、そもそもお金じゃないもの（数字以外のもの）など）
     # が投入された場合は、投入金額に加算せず、それをそのまま釣り銭としてユーザに出力する。
     if MONEY.include?(money)
-    return false unless MONEY.include?(money)
-    # 自動販売機にお金を入れる
-    @slot_money += money
+      @slot_money += money
+    else
+      puts "想定外のものが入力されたため返却します"
+      puts "#{money}を返却しました"
+    # return false unless MONEY.include?(money)
     end
   end
   # 払い戻し操作を行うと、投入金額の総計を釣り銭として出力する。
@@ -85,18 +87,19 @@ while true
   index.each do |navigation|
     puts navigation
   end
-  puts "以下の中から行う操作を選んでください"
-  puts "1:お金を入れる"
-  puts "2:飲み物を買う"
-  puts "3:購入できる商品を確認する"
-  puts "4:購入をやめる"
+  # puts "以下の中から行う操作を選んでください"
+  # puts "1:お金を入れる"
+  # puts "2:飲み物を買う"
+  # puts "3:購入できる商品を確認する"
+  # puts "4:購入をやめる"
   number = gets.to_i
   case number
   when 1
-    vm.slot_money(100)
-    vm.slot_money(100)
+    puts "投入金額を入力してください(10、50、100、500、1000のいずれかの数値)"
+    money = gets.to_i
+    vm.slot_money(money)
     # 金額の選択機能が未実装です
-    p vm.current_slot_money
+    vm.current_slot_money
   when 2
     vm.purchase
     break
