@@ -6,7 +6,7 @@ class VendingMachine
     @sale = 0
     @slot_money = 0
     @coke = [{name: "コーラ",  price:120}] * 5
-    @water = [{name: "水",  price:100}] * 1
+    @water = [{name: "水",  price:100}] * 5
     @redbull = [{name: "レッドブル",  price:200}] * 5
     @drink = []
   end
@@ -51,6 +51,7 @@ class VendingMachine
     elsif @slot_money >= @drink[0][:price]
       @sale += @drink[0][:price]
       puts "#{@drink[0][:name]}を購入しました"
+      puts "売上金額:#{@sale}円"
       @slot_money -= @drink[0][:price]
       @drink.shift
     else
