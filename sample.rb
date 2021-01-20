@@ -48,6 +48,7 @@ class VendingMachine
       puts "購入可能な商品の番号を入力してください"
     end
     if @drink == []
+      puts "この商品は品切れのため購入できません"
     elsif @slot_money >= @drink[0][:price]
       @sale += @drink[0][:price]
       puts "#{@drink[0][:name]}を購入しました"
@@ -82,6 +83,9 @@ class VendingMachine
     レッドブル：#{@redbull.size}本
     EOS
   end
+  def earnings
+    puts "売上金額:#{@sale}円"
+  end
   vm = VendingMachine.new
   while true
     index = ["---------------------",
@@ -89,7 +93,8 @@ class VendingMachine
              "1:お金を入れる",
              "2:飲み物を買う",
              "3:購入できる商品を確認する",
-             "4:購入をやめる",
+             "4:売上金額を確認する",
+             "5:購入をやめる",
              "---------------------"]
     index.each do |navigation|
       puts navigation
@@ -106,11 +111,13 @@ class VendingMachine
     when 3
       vm.can_purchase_list
     when 4
+      vm.earnings
+    when 5
       puts "購入を終了します"
       vm.return_money
       break
     else
-      puts "1~4の数字を入力してください"
+      puts "1~5の数字を入力してください"
     end
   end
 end
