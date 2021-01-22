@@ -9,6 +9,14 @@ class DrinkHolder
     @drink = []
   end
 
+  def drink_stock
+    puts <<~EOS
+    コーラ：#{@coke.size}本
+    水：#{@water.size}本
+    レッドブル：#{@redbull.size}本
+    EOS
+  end
+
   def pickup(number)
     case number
     when 1
@@ -44,23 +52,8 @@ class Operation
     @slot_money = 0
     @sale = 0
   end
-  def purchase
-    drink_number = gets.to_i
-    @drink = self.select_drink(drink_number)
-    if @drink.nil?
-      puts "この商品は品切れのため購入できません"
-    elsif @slot_money >= @drink[0][:price]
-      # @sale += @drink[0][:price]
-      puts "#{@drink[0][:name]}を購入しました"
-      puts "売上金額:#{@sale}円"
-      @slot_money -= @drink[0][:price]
-      @drink.shift
-    else
-      puts "この商品は購入できません"
-    end
-  end
 
-  def select_drink(number)
+  def purchase
     index = ["---------------------",
              "以下の中から購入する商品の番号を入力してください",
              "1:コーラ",
@@ -70,7 +63,23 @@ class Operation
     index.each do |navigation|
       puts navigation
     end
-    self.drink_holder.pickup(number)
+    drink_number = gets.to_i
+    @drink = self.select_drink(drink_number)
+    if @drink.nil?
+      puts "この商品は品切れのため購入できません"
+    elsif @slot_money >= @drink[0][:price]
+      puts "#{@drink[0][:name]}を購入しました"
+      # puts "売上金額:#{@sale}円"
+      @slot_money -= @drink[0][:price]
+      @drink.shift
+      return @sale = @drink[0][:price]
+    else
+      puts "この商品は購入できません"
+    end
+  end
+
+  def select_drink(number)
+    @drink_list.pickup(number)
   end
 
   def can_purchase_coke?
@@ -78,37 +87,20 @@ class Operation
       @coke[0][:name]
     end
   end
+
   def can_purchase_water?
     if @slot_money >= 100 && @water.size >= 1
       @water[0][:name]
     end
   end
+
   def can_purchase_redbull?
     if @slot_money >= 200 && @redbull.size >= 1
       @redbull[0][:name]
     end
   end
 
-  def can_purchase_list
-    puts "購入できる飲み物:#{self.can_purchase_coke?} #{self.can_purchase_water?} #{self.can_purchase_redbull?}"
-    puts <<~EOS
-    現在の投入金額：#{@slot_money}円
-    コーラ：#{@coke.size}本
-    水：#{@water.size}本
-    レッドブル：#{@redbull.size}本
-    EOS
-  end
-
-  def select_drink(number)
-    puts “投入金額を入力してください(10、50、100、500、1000のいずれかの数値)”
-    self.drink_holder.pickup(number)
-  end
-
-  def current_slot_money
-    puts "現在の投入金額は#{@slot_money}円です"
-  end
-
-  def slot_money(coin)
+  def add_money
     puts "投入金額を入力してください(10、50、100、500、1000のいずれかの数値)"
     coin = gets.to_i
     if Money.is_valid(coin)
@@ -117,21 +109,77 @@ class Operation
       puts "想定外のものが入力されたため返却します"
       puts "#{coin}円を返却しました"
     end
+    # money_num = gets.to_i
+    # if !Money.is_valid(money_num)
+    #   puts "想定外のものが入力されたため返却します"
+    #   puts "#{money}円を返却しました"
+    # end
+    # @slot_money += money
+  end
+
+  def can_purchase_list
+    puts "現在の投入金額：#{@slot_money}円"
+    # puts "購入できる飲み物:#{self.can_purchase_coke?} #{self.can_purchase_water?} #{self.can_purchase_redbull?}"
+    @drink_list.drink_stock
+  end
+  # def current_slot_money
+  #   puts "現在の投入金額は#{@slot_money}円です"
+  # end
+  #
+  # def slot_money(coin)
+  #   puts "投入金額を入力してください(10、50、100、500、1000のいずれかの数値)"
+  #   coin = gets.to_i
+  #   if Money.is_valid(coin)
+  #     @slot_money += coin
+  #   else
+  #     puts "想定外のものが入力されたため返却します"
+  #     puts "#{coin}円を返却しました"
+  #   end
+  # end
+  #
+end
+
+class VendingMachine
+  def initialize
+    @total_sales = 0
+    @total_money = 0
+    @current_operation
+    @drink_holder = DrinkHolder.new
+  end
+
+  def total_sales
+    puts "現在の売上金額は#{@total_sales}円です"
+  end
+
+  def add_money
+    if @current_operation.nil?
+      @current_operation = Operation.new(@drink_holder)
+    end
+    result = @current_operation.add_money
+    @total_money += result
+  end
+
+  def purchase_drink
+    if @current_operation.nil?
+      @current_operation = Operation.new(@drink_holder)
+    end
+    result = @current_operation.purchase
+    @total_sales += result
+    @current_operation = nil
+  end
+
+  def disply_buyable
+    if @current_operation.nil?
+      @current_operation = Operation.new(@drink_holder)
+    end
+    @current_operation.can_purchase_list
   end
 
   def return_money
     puts "お釣りは#{@slot_money}円です"
-    @slot_money = 0
   end
-end
 
-class VendingMachine
-
-  vm = VendingMachine.new
-  drink = DrinkHolder.new
-  money = Money.new
-  operation = Operation.new
-
+  vending_machine = VendingMachine.new
   while true
     index = ["---------------------",
              "以下の中から行う操作を選んでください",
@@ -144,20 +192,19 @@ class VendingMachine
     index.each do |navigation|
       puts navigation
     end
+
     number = gets.to_i
     case number
     when 1
-      money.slot_money(coin)
-      money.current_slot_money
+      vending_machine.add_money
     when 2
-      operation.purchase
+      vending_machine.purchase_drink
     when 3
-      operation.can_purchase_list
+      vending_machine.disply_buyable
     when 4
-      money.earnings
+      vending_machine.total_sales
     when 5
-      puts "購入を終了します"
-      money.return_money
+      vending_machine.return_money
       break
     else
       puts "1~5の数字を入力してください"
