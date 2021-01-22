@@ -1,9 +1,9 @@
 # 現実世界でそのシステムを手動でやろうと、流れ、機能
 class DrinkHolder
   def initialize
-    @coke = [{name: “コーラ“,  price:120}] * 5
-    @water = [{name: “水”,  price:100}] * 5
-    @redbull = [{name: “レッドブル“,  price:200}] * 5
+    @coke = [{name: "コーラ",  price:120}] * 5
+    @water = [{name: "水",  price:100}] * 5
+    @redbull = [{name: "レッドブル",  price:200}] * 5
     @drink = []
   end
   def pickup(number)
@@ -25,7 +25,7 @@ class DrinkHolder
     end
   end
   def drink_list
-    [“コーラ“, “水”, “レッドブル“]
+    ["コーラ", "水", "レッドブル"]
   end
 end
 class Money
@@ -46,12 +46,12 @@ class Operation
     drink_number = gets.to_i
     @drink = self.select_drink(drink_number)
     if (@drink.nil?)
-      return puts “この商品は購入できません”
+      return puts "この商品は購入できません"
     end
     if @slot_money >= @drink[0].price
-      puts “#{@drink[0][:name]}を購入しました”
+      puts "#{@drink[0][:name]}を購入しました"
       @drink.shift
-      puts “売上金額:#{@drink[0].price}円”
+      puts "売上金額:#{@drink[0].price}円"
       @sale = @drink[0].price
       return { change: @slot_money - @drink[0].price }
     end
@@ -59,13 +59,13 @@ class Operation
   def add_money
     money_num = gets.to_i
     if !Money.is_valid(money_num)
-      puts “想定外のものが入力されたため返却します”
-      puts “#{money}円を返却しました”
+      puts "想定外のものが入力されたため返却します"
+      puts "#{money}円を返却しました"
     end
     @slot_money += money
   end
   def can_purchase_list
-    puts "購入できる飲み物:#{self.can_purchase_coke?} #{self.can_purchase_water?} #{self.can_purchase_redbull?}"
+    puts　"購入できる飲み物:#{self.can_purchase_coke?} #{self.can_purchase_water?} #{self.can_purchase_redbull?}"
     puts <<~EOS
     現在の投入金額：#{@slot_money}円
     コーラ：#{@drink_list.coke.size}本
@@ -90,7 +90,7 @@ class Operation
     end
   end
   def select_drink(number)
-    puts “投入金額を入力してください(10、50、100、500、1000のいずれかの数値)”
+    puts "投入金額を入力してください(10、50、100、500、1000のいずれかの数値)"
     self.drink_holder.pickup(number)
   end
 end
@@ -128,22 +128,22 @@ class VendingMachine
     @current_operation.can_purchase_list()
   end
   def exit_operation
-    puts “5"
-    puts “購入を終了します”
-    puts “お釣りは0円です”
+    puts "5"
+    puts "購入を終了します"
+    puts "お釣りは0円です"
   end
 end
 def main
   vending_machine = new VendingMachine
   while true
-    index = [“---------------------“,
-             “以下の中から行う操作を選んでください“,
-             “1:お金を入れる“,
-             “2:飲み物を買う“,
-             “3:購入できる商品を確認する“,
-             “4:売上金額を確認する“,
-             “5:購入をやめる“,
-             “---------------------“]
+    index = ["---------------------",
+             "以下の中から行う操作を選んでください",
+             "1:お金を入れる",
+             "2:飲み物を買う",
+             "3:購入できる商品を確認する",
+             "4:売上金額を確認する",
+             "5:購入をやめる",
+             "---------------------"]
     index.each do |navigation|
       puts navigation
     end
@@ -160,7 +160,7 @@ def main
     when 5
       return vending_machine.exit_operation()
     else
-      puts “1~5の数字を入力してください”
+      puts "1~5の数字を入力してください"
     end
-  end
+ end
 end
