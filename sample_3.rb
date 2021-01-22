@@ -115,34 +115,12 @@ class Operation
       puts "想定外のものが入力されたため返却します"
       puts "#{coin}円を返却しました"
     end
-    # money_num = gets.to_i
-    # if !Money.is_valid(money_num)
-    #   puts "想定外のものが入力されたため返却します"
-    #   puts "#{money}円を返却しました"
-    # end
-    # @slot_money += money
   end
 
   def can_purchase_list
     puts "現在の投入金額：#{@slot_money}円"
-    # puts "購入できる飲み物:#{self.can_purchase_coke?} #{self.can_purchase_water?} #{self.can_purchase_redbull?}"
     @drink_list.drink_stock
   end
-  # def current_slot_money
-  #   puts "現在の投入金額は#{@slot_money}円です"
-  # end
-  #
-  # def slot_money(coin)
-  #   puts "投入金額を入力してください(10、50、100、500、1000のいずれかの数値)"
-  #   coin = gets.to_i
-  #   if Money.is_valid(coin)
-  #     @slot_money += coin
-  #   else
-  #     puts "想定外のものが入力されたため返却します"
-  #     puts "#{coin}円を返却しました"
-  #   end
-  # end
-  #
 end
 
 class VendingMachine
