@@ -4,7 +4,7 @@
 class DrinkHolder
   def initialize
     @coke = [{name: "コーラ",  price:120}] * 5
-    @water = [{name: "水",  price:100}] * 5
+    @water = [{name: "水",  price:100}] * 1
     @redbull = [{name: "レッドブル",  price:200}] * 5
     @drink = []
   end
@@ -66,16 +66,22 @@ class Operation
     drink_number = gets.to_i
     @drink = self.select_drink(drink_number)
     if @drink.nil?
-      puts "この商品は品切れのため購入できません"
+      puts "この商品は購入できません"
     elsif @slot_money >= @drink[0][:price]
       puts "#{@drink[0][:name]}を購入しました"
       # puts "売上金額:#{@sale}円"
       @slot_money -= @drink[0][:price]
+      @sale = @drink[0][:price]
       @drink.shift
-      return @sale = @drink[0][:price]
+      self.return_money
+      return @sale
     else
       puts "この商品は購入できません"
     end
+  end
+
+  def return_money
+    puts "お釣りは#{@slot_money}円です"
   end
 
   def select_drink(number)
@@ -164,8 +170,12 @@ class VendingMachine
       @current_operation = Operation.new(@drink_holder)
     end
     result = @current_operation.purchase
-    @total_sales += result
-    @current_operation = nil
+    if result.class == Integer
+      @total_sales += result
+      @current_operation = nil
+    else
+      result
+    end
   end
 
   def disply_buyable
@@ -175,8 +185,9 @@ class VendingMachine
     @current_operation.can_purchase_list
   end
 
-  def return_money
-    puts "お釣りは#{@slot_money}円です"
+  def exit_operation
+    puts "購入を終了します"
+    puts "お釣りは#{@total_money}円です"
   end
 
   vending_machine = VendingMachine.new
@@ -204,7 +215,7 @@ class VendingMachine
     when 4
       vending_machine.total_sales
     when 5
-      vending_machine.return_money
+      vending_machine.exit_operation
       break
     else
       puts "1~5の数字を入力してください"
