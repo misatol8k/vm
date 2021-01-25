@@ -1,4 +1,4 @@
-# $ ruby test/sample_3_test.rb でテストを実行
+# $ ruby test/vendingmachine.rb でテストを実行
 require 'minitest/autorun'
 require './vendingmachine.rb'
 require './money.rb'

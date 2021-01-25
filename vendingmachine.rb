@@ -1,5 +1,5 @@
 # irb
-# require '/Users/mlkuri/workspace/vm/sample.rb'
+# require '/Users/mlkuri/workspace/vm/vendingMachine.rb'
 
 require './money.rb'
 require './drinkholder.rb'
@@ -36,7 +36,7 @@ class VendingMachine
     result = @current_operation.purchase
     if result.class == Integer
       @total_sales += result
-      @total_money -= result #追加
+      @total_money = 0
       @current_operation = nil
     else
       result
