@@ -108,14 +108,12 @@ class Operation
 
   def add_money
     puts "投入金額を入力してください(10、50、100、500、1000のいずれかの数値)"
-    input = gets
-    coin = input.to_i
+    coin = gets.to_i
     if Money.is_valid(coin)
       @slot_money += coin
     else
       puts "想定外のものが入力されたため返却します"
-      puts "#{input}円を返却しました"
-      input
+      puts "#{coin}円を返却しました"
     end
   end
 
@@ -141,9 +139,11 @@ class VendingMachine
     if @current_operation.nil?
       @current_operation = Operation.new(@drink_holder)
     end
-    result = @current_operation.add_money
+    result = @current_operation.add_money #条件分岐を追加
     if result.class == Integer
       @total_money += result
+    else
+      result
     end
   end
 
