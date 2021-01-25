@@ -150,6 +150,7 @@ class VendingMachine
     result = @current_operation.purchase
     if result.class == Integer
       @total_sales += result
+      @total_money -= result #追加
       @current_operation = nil
     else
       result
